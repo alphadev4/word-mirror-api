@@ -6,7 +6,8 @@ node_modules/
 
 # Logs
 *.log
-
+terraform.tfstate.*.backup
+/terraform/terraform.tfstate.1762198490.backup
 # Terraform
 *.tfstate
 *.tfstate.backup

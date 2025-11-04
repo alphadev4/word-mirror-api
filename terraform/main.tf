@@ -8,9 +8,16 @@ terraform {
       source  = "hashicorp/random"
       version = "~>3.0"
     }
+    azuredevops = {
+      source  = "microsoft/azuredevops"
+      version = "~>1.0"
+    }
   }
+}
 
-  required_version = ">= 1.4.0"
+provider "azuredevops" {
+  org_service_url       = "https://dev.azure.com/contactuzmarazzaq"
+  personal_access_token = var.azure_devops_pat
 }
 
 provider "azurerm" {
@@ -152,3 +159,35 @@ output "postgres_connection_url" {
   )
   sensitive = true
 }
+
+# ---------------------------
+# Azure DevOps Project
+# ---------------------------
+
+# ---------------------------
+# GitHub Service Connection
+# ---------------------------
+data "azuredevops_project" "mirror_project" {
+  name = "mirror-app"
+}
+
+
+# ---------------------------
+# Azure Pipeline (YAML-based)
+# ---------------------------
+# resource "azuredevops_build_definition" "mirror_pipeline" {
+#   project_id = data.azuredevops_project.mirror_project.id
+
+#   name       = "Word Mirror API CI Pipeline"
+
+#   ci_trigger {
+#     use_yaml = true
+#   }
+
+#   repository {
+#     repo_type   = "GitHub"
+#     repo_id   = "alphadev4/word-mirror-api"
+#     branch_name = "master"
+#     yml_path    = "terraform/azure-pipelines.yml"
+#   }
+# }
